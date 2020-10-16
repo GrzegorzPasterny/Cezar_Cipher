@@ -2,59 +2,53 @@
 
 open System
 
-[<EntryPoint>]
+
 let CezarCipher =
     
     let getText = 
         printfn "Put here text you would like to process:"
-        Console.ReadLine().ToUpper()
+        "Ala ma kota".ToLower()
+        //Console.ReadLine().ToLower()
 
     let getShift = 
         printfn "What is the shift of the cipher?"
-        Console.ReadLine()
+        "10"
+        //Console.ReadLine()
         |> int
     
-    let alphabet = "ABCDEFGHIJKLMNOPQRSTUWXYZ"
-
-    let moveChar (input : char, shift : int, direction : bool) = 
+    //let moveChar (input : char, shift : int, direction : bool) = 
         
-        let findStartPosition c = 
-            alphabet.ToCharArray()
-            |> Seq.ofArray
-            |> Seq.findIndex (fun i -> i = c)
+    //    let NumericChar = int input
 
-        let shiftChar positionInAlbhabet movement =
-             
-             let dumbTotal = positionInAlbhabet + movement
-             
-             match dumbTotal with
-             | t when t > alphabet.Length -> t - alphabet.Length
-             | _ -> dumbTotal
-
-        shiftChar (findStartPosition input) shift
-
-    let moveString input shift direction =
+    //    match direction with
+    //    | true -> match NumericChar with
+    //              | i when i >= 68 && i < 95 -> 71
+    //              | _ -> 70
+            
+    //    | false -> match NumericChar with
+    //              | i when i >= 68 && i < 95 -> 71
+    //              | _ -> 70
+        
+    let moveString (input : string) shift =
         
         input.ToCharArray()
         |> List.ofArray
-        |> List.forall (fun c -> moveChar c shift direction)
-
+        |> List.map (fun c -> 
+            match int c with
+                    | i when i + shift > 122 -> i - 26 + shift
+                    | i when i + shift < 122 -> i + shift
+                    | i when i - shift < 97 -> i + 26 - shift
+                    | i when i - shift > 97 -> i - shift
+                )
+        |> List.map (fun i -> char i)
+        |> String.Concat
         //[for c in input do yield (moveChar c shift direction)]
 
-    let performDecryption = 
-        moveString getText getShift -1
+    printfn "Welcome in Cezar Cipher encrypter." 
+    Console.WriteLine(moveString getText getShift)
 
-    let performEncryption = 
-        moveString getText getShift 1
-
-
-    printfn "Welcome in Cezar Cipher encrypter. Do you want to encrypt or decrypt Cezar cipher? //\\True (1); False (0); other character to exit)//\\" 
-    match Console.ReadLine() with
-        | "0" -> performDecryption
-        | "1" -> performEncryption
-        | _ -> 0
-
-CezarCipher |> ignore
+[<EntryPoint>]
+CezarCipher
     
 
     
