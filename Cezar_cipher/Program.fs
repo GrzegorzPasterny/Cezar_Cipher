@@ -1,6 +1,4 @@
-﻿// Learn more about F# at http://fsharp.org
-
-open System
+﻿open System
 
 
 let CezarCipher =
@@ -27,7 +25,7 @@ let CezarCipher =
         |> List.map (fun c -> 
             match int c with
                     | i when i + shift > 122 -> i - 26 + shift
-                    | i when i + shift < 122 && i + shift > 97 -> i + shift
+                    | i when i + shift <= 122 && i + shift >= 97 -> i + shift
                     | i when i + shift < 97 -> i + 26 + shift
                     )
         |> List.map (fun i -> char i)
@@ -37,10 +35,3 @@ let CezarCipher =
 
 [<EntryPoint>]
 CezarCipher
-    
-
-    
-
-
-    
-
